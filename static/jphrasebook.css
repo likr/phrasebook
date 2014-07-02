@@ -1,0 +1,7 @@
+div.phrase {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+div.phrase>p {
+  word-wrap: break-word;
+}

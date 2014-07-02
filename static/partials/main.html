@@ -5,28 +5,20 @@
     <form ng-submit="submit()">
       <div class="form-group">
         <label>English</label>
-        <input class="form-control" ng-model="newPhrase.english" required>
+        <textarea class="form-control" ng-model="newPhrase.english" row="3" required/></textarea>
       </div>
       <div class="form-group">
         <label>Japanese</label>
-        <input class="form-control" ng-model="newPhrase.japanese" required>
+        <textarea class="form-control" ng-model="newPhrase.japanese" row="3" required/></textarea>
       </div>
-      <input class="btn btn-default" type="submit" value="送信">
+      <input class="btn btn-default" type="submit" value="Submit">
     </form>
   </div>
   <div>
     <h2>Phrases</h2>
-    <div class="table-responsive">
-      <table class="table table-bordered">
-        <tr>
-          <th class="col-xs-6">English</th>
-          <th class="col-xs-6">Japanese</th>
-        </tr>
-        <tr ng-repeat="phrase in phrases">
-          <td>{{phrase.english}}</td>
-          <td>{{phrase.japanese}}</td>
-        </tr>
-      </table>
+    <div ng-repeat="phrase in phrases" class="phrase">
+      <p>{{phrase.english}}</p>
+      <p>{{phrase.japanese}}</p>
     </div>
   </div>
 </div>

@@ -4,12 +4,19 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Phrase Book</title>
-<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="bower_components/bootswatch/united/bootstrap.min.css"/>
+<link rel="stylesheet" href="jphrasebook.css"/>
 <link rel="apple-touch-icon-precomposed" href="images/icon/icon256.png"/>
 </head>
 <body>
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Phrase Book</a>
+    </div>
+  </div>
+</nav>
 <div class="container">
-  <h1>Phrase Book</h1>
   <div ui-view></div>
 </div>
 <script src="bower_components/angular/angular.min.js"></script>

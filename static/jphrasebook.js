@@ -7,7 +7,7 @@
     return $resource('/api/phrases/:phraseId');
   });
 
-  app.controller('AuthController', function($scope, $window) {
+  app.controller('InstallController', function($scope, $window) {
     $scope.install = function() {
       var request, url;
       url = $window.location.origin + '/jphrasebook.webapp';
@@ -34,9 +34,13 @@
 
   app.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider.state('login', {
-      controller: 'AuthController',
       templateUrl: 'partials/login.html',
       url: '/login'
+    });
+    $stateProvider.state('install', {
+      controller: 'InstallController',
+      templateUrl: 'partials/install.html',
+      url: '/install'
     });
     $stateProvider.state('main', {
       controller: 'MainController',

@@ -3,7 +3,7 @@ app = angular.module 'jphrasebook', ['ngResource', 'ui.router']
 app.factory 'Phrase', ($resource) ->
   $resource '/api/phrases/:phraseId'
 
-app.controller 'AuthController', ($scope, $window) ->
+app.controller 'InstallController', ($scope, $window) ->
   $scope.install = () ->
     url = $window.location.origin + '/jphrasebook.webapp'
     request = $window.navigator.mozApps.install url
@@ -27,9 +27,12 @@ app.controller 'MainController', ($scope, Phrase, phrases) ->
 
 app.config ($stateProvider, $urlRouterProvider) ->
   $stateProvider.state 'login',
-    controller: 'AuthController'
     templateUrl: 'partials/login.html'
     url: '/login'
+  $stateProvider.state 'install',
+    controller: 'InstallController'
+    templateUrl: 'partials/install.html'
+    url: '/install'
   $stateProvider.state 'main',
     controller: 'MainController'
     resolve:
