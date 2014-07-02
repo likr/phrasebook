@@ -1,0 +1,26 @@
+application: jphrasebook
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: /api/auth/.*
+  script: api.main.app
+
+- url: /api/.*
+  script: api.main.app
+  login: required
+  auth_fail_action: unauthorized
+
+- url: /
+  static_files: static/index.html
+  upload: /
+
+- url: /(.*)
+  static_files: static/\1
+  upload: static/.*
+
+libraries:
+- name: webapp2
+  version: "2.5.2"

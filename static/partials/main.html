@@ -1,0 +1,32 @@
+<div>
+  <p class="text-right"><a href="/api/auth/logout">Logout</a></p>
+  <div>
+    <h2>New Phrase</h2>
+    <form ng-submit="submit()">
+      <div class="form-group">
+        <label>English</label>
+        <input class="form-control" ng-model="newPhrase.english" required>
+      </div>
+      <div class="form-group">
+        <label>Japanese</label>
+        <input class="form-control" ng-model="newPhrase.japanese" required>
+      </div>
+      <input class="btn btn-default" type="submit" value="送信">
+    </form>
+  </div>
+  <div>
+    <h2>Phrases</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tr>
+          <th class="col-xs-6">English</th>
+          <th class="col-xs-6">Japanese</th>
+        </tr>
+        <tr ng-repeat="phrase in phrases">
+          <td>{{phrase.english}}</td>
+          <td>{{phrase.japanese}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
