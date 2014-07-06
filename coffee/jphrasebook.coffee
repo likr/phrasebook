@@ -57,6 +57,12 @@ app.config ($stateProvider, $urlRouterProvider) ->
       phrases: (Phrase) -> Phrase.query().$promise
     templateUrl: 'partials/main.html'
     url: '/main'
+  $stateProvider.state 'app.statistics',
+    templateUrl: 'partials/statistics.html'
+    url: '/statistics'
+  $stateProvider.state 'app.graphs',
+    templateUrl: 'partials/graphs.html'
+    url: '/graphs'
   $urlRouterProvider.otherwise '/main'
   return
 

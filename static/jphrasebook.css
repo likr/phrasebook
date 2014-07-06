@@ -11,3 +11,7 @@ div.phrase {
 form.main-form {
   margin-bottom: 20px;
 }
+a:link,a:visited,a:active,a:hover {
+  overflow: hidden;
+  outline: none;
+}
