@@ -1,11 +1,8 @@
 <div>
   <div>
     <form class="main-form row">
-      <div class="form-group col-xs-12 col-sm-4">
+      <div class="form-group">
         <input type="search" class="form-control" ng-model="search" placeholder="Search">
-      </div>
-      <div class="form-group col-xs-12 col-sm-4 col-sm-offset-4">
-        <a class="btn btn-default btn-block" ng-click="openDialog()">Add new phrase</a>
       </div>
     </form>
   </div>
@@ -14,4 +11,9 @@
     <p class="japanese">{{phrase.english}}</p>
     <p class="english">{{phrase.japanese}}</p>
   </div>
+  <nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+      <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="openDialog()">Add new phrase</a>
+    </div>
+  </nav>
 </div>
