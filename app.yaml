@@ -17,6 +17,11 @@ handlers:
   static_files: static/index.html
   upload: /
 
+- url: /jphrasebook\.webapp
+  static_files: static/jphrasebook.webapp
+  upload: static/jphrasebook\.webapp
+  mime_type: application/x-web-app-manifest+json
+
 - url: /(.*)
   static_files: static/\1
   upload: static/.*
