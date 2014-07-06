@@ -1,4 +1,4 @@
-app = angular.module 'jphrasebook', ['ngResource', 'ui.router']
+app = angular.module 'jphrasebook', ['ngResource', 'ui.router', 'ui.bootstrap']
 
 app.factory 'Phrase', ($resource) ->
   $resource '/api/phrases/:phraseId'
@@ -14,26 +14,44 @@ app.controller 'InstallController', ($scope, $window) ->
     return
   return
 
-app.controller 'MainController', ($scope, Phrase, phrases) ->
+app.controller 'MainController', ($scope, $modal, Phrase, phrases) ->
   $scope.phrases = phrases
-  $scope.newPhrase = new Phrase
 
-  $scope.submit = () ->
-    $scope.newPhrase.$save()
-      .then (phrase) ->
-        $scope.phrases.unshift phrase
+  $scope.openDialog = () ->
+    m = $modal.open
+      controller: ($scope) ->
         $scope.newPhrase = new Phrase
+        $scope.submit = () ->
+          $scope.newPhrase.$save()
+            .then (phrase) ->
+              phrases.unshift phrase
+              $scope.newPhrase = new Phrase
+              m.close()
+        $scope.cancel = () ->
+          m.dismiss()
+        return
+      templateUrl: 'partials/dialog.html'
+    return
   return
 
 app.config ($stateProvider, $urlRouterProvider) ->
-  $stateProvider.state 'login',
+  $stateProvider.state 'app',
+    abstract: true
+    controller: ($scope, user) ->
+      $scope.user = user.email
+    resolve:
+      user: ($http) ->
+        $http.get '/api/auth/user'
+          .then (response) -> response.data
+    templateUrl: 'partials/base.html'
+  $stateProvider.state 'app.login',
     templateUrl: 'partials/login.html'
     url: '/login'
-  $stateProvider.state 'install',
+  $stateProvider.state 'app.install',
     controller: 'InstallController'
     templateUrl: 'partials/install.html'
     url: '/install'
-  $stateProvider.state 'main',
+  $stateProvider.state 'app.main',
     controller: 'MainController'
     resolve:
       phrases: (Phrase) -> Phrase.query().$promise
@@ -46,6 +64,6 @@ app.run ($rootScope, $state) ->
   $rootScope.$on '$stateChangeError', () ->
     error = arguments[5]
     if error.status is 401
-      $state.go 'login'
+      $state.go 'app.login'
     return
   return

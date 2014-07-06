@@ -1,7 +1,13 @@
-div.phrase {
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+div.phrase>.created-at {
+  border-bottom: 2px solid #dd4814;
+  margin-bottom: 0;
 }
 div.phrase>p {
   word-wrap: break-word;
+}
+div.phrase {
+  margin-bottom: 30px;
+}
+form.main-form {
+  margin-bottom: 20px;
 }

@@ -15,6 +15,8 @@ class Phrase(ndb.Model):
         return {
             'japanese': self.japanese,
             'english': self.english,
+            'createdAt': self.created_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            'updatedAt': self.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
         }
 
 
@@ -44,8 +46,19 @@ class LogoutHandler(webapp2.RequestHandler):
         self.redirect(users.create_logout_url('/'))
 
 
+class UserHandler(webapp2.RequestHandler):
+    def get(self):
+        current_user = users.get_current_user()
+        user = {}
+        if current_user:
+            user['id'] = current_user.user_id()
+            user['email'] = current_user.email()
+        self.response.write(json.dumps(user))
+
+
 app = webapp2.WSGIApplication([
     ('/api/auth/login', LoginHandler),
     ('/api/auth/logout', LogoutHandler),
+    ('/api/auth/user', UserHandler),
     ('/api/phrases', PhraseHandler)
 ], debug=True)

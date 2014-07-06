@@ -1,7 +1,7 @@
 (function() {
   var app;
 
-  app = angular.module('jphrasebook', ['ngResource', 'ui.router']);
+  app = angular.module('jphrasebook', ['ngResource', 'ui.router', 'ui.bootstrap']);
 
   app.factory('Phrase', function($resource) {
     return $resource('/api/phrases/:phraseId');
@@ -21,28 +21,54 @@
     };
   });
 
-  app.controller('MainController', function($scope, Phrase, phrases) {
+  app.controller('MainController', function($scope, $modal, Phrase, phrases) {
     $scope.phrases = phrases;
-    $scope.newPhrase = new Phrase;
-    $scope.submit = function() {
-      return $scope.newPhrase.$save().then(function(phrase) {
-        $scope.phrases.unshift(phrase);
-        return $scope.newPhrase = new Phrase;
+    $scope.openDialog = function() {
+      var m;
+      m = $modal.open({
+        controller: function($scope) {
+          $scope.newPhrase = new Phrase;
+          $scope.submit = function() {
+            return $scope.newPhrase.$save().then(function(phrase) {
+              phrases.unshift(phrase);
+              $scope.newPhrase = new Phrase;
+              return m.close();
+            });
+          };
+          $scope.cancel = function() {
+            return m.dismiss();
+          };
+        },
+        templateUrl: 'partials/dialog.html'
       });
     };
   });
 
   app.config(function($stateProvider, $urlRouterProvider) {
-    $stateProvider.state('login', {
+    $stateProvider.state('app', {
+      abstract: true,
+      controller: function($scope, user) {
+        return $scope.user = user.email;
+      },
+      resolve: {
+        user: function($http) {
+          return $http.get('/api/auth/user').then(function(response) {
+            return response.data;
+          });
+        }
+      },
+      templateUrl: 'partials/base.html'
+    });
+    $stateProvider.state('app.login', {
       templateUrl: 'partials/login.html',
       url: '/login'
     });
-    $stateProvider.state('install', {
+    $stateProvider.state('app.install', {
       controller: 'InstallController',
       templateUrl: 'partials/install.html',
       url: '/install'
     });
-    $stateProvider.state('main', {
+    $stateProvider.state('app.main', {
       controller: 'MainController',
       resolve: {
         phrases: function(Phrase) {
@@ -60,7 +86,7 @@
       var error;
       error = arguments[5];
       if (error.status === 401) {
-        $state.go('login');
+        $state.go('app.login');
       }
     });
   });

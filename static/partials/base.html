@@ -1,0 +1,23 @@
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Phrase Book</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown" ng-if="user !== undefined">
+        <a class="dropdown-toggle">{{user}} <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a class="disabled" disabled>Statistics</a></li>
+          <li><a class="disabled" disabled>Graphs</a></li>
+          <li><a href="/api/auth/logout">Logout</a></li>
+        </ul>
+      </li>
+      <li class="dropdown" ng-if="user == undefined">
+        <a href="/api/auth/login">Login</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <div ui-view></div>
+</div>
