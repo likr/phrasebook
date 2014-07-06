@@ -6,10 +6,12 @@
       </div>
     </form>
   </div>
-  <div ng-repeat="phrase in phrases | filter:search | orderBy:'createdAt':true" class="phrase">
-    <p class="created-at text-right">{{phrase.createdAt | date:'yyyy/MM/dd HH:mm:ss'}}</p>
-    <p class="japanese">{{phrase.english}}</p>
-    <p class="english">{{phrase.japanese}}</p>
+  <div style="margin-bottom: 80px">
+    <div ng-repeat="phrase in phrases | filter:search | orderBy:'createdAt':true" class="phrase">
+      <p class="created-at text-right">{{phrase.createdAt | date:'yyyy/MM/dd HH:mm:ss'}}</p>
+      <p class="japanese">{{phrase.english}}</p>
+      <p class="english">{{phrase.japanese}}</p>
+    </div>
   </div>
   <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container">

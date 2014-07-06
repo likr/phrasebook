@@ -37,8 +37,8 @@ app.controller 'MainController', ($scope, $stateParams,
 
 app.controller 'StatisticsController', ($scope, phrases) ->
   $scope.phrases = phrases
-  $scope.words = Array.concat
-    .apply null, phrases.map (phrase) -> phrase.english.split /[ .,]/
+  $scope.words = Array.prototype.concat
+    .apply [], phrases.map (phrase) -> phrase.english.split /[ .,]/
     .filter (d) -> d
   $scope.uniqueWords = d3.set($scope.words).values()
   return
@@ -48,8 +48,8 @@ app.controller 'GraphsController', ($scope, $state, phrases) ->
   height = $('#display').height()
   words = (() ->
     o = {}
-    Array.concat
-      .apply null, phrases.map (phrase) -> phrase.english.split /[ .,]/
+    Array.prototype.concat
+      .apply [], phrases.map (phrase) -> phrase.english.split /[ .,]/
       .filter (d) -> d
       .forEach (word) ->
         if not o[word]?
@@ -113,7 +113,6 @@ app.config ($stateProvider, $urlRouterProvider) ->
       user: ($http) ->
         $http.get '/api/auth/user'
           .then (response) -> response.data
-      phrases: (Phrase) -> Phrase.query().$promise
     templateUrl: 'partials/base.html'
   $stateProvider.state 'app.login',
     templateUrl: 'partials/login.html'
@@ -124,14 +123,20 @@ app.config ($stateProvider, $urlRouterProvider) ->
     url: '/install'
   $stateProvider.state 'app.main',
     controller: 'MainController'
+    resolve:
+      phrases: (Phrase) -> Phrase.query().$promise
     templateUrl: 'partials/main.html'
     url: '/main?search'
   $stateProvider.state 'app.statistics',
     controller: 'StatisticsController'
+    resolve:
+      phrases: (Phrase) -> Phrase.query().$promise
     templateUrl: 'partials/statistics.html'
     url: '/statistics'
   $stateProvider.state 'app.graphs',
     controller: 'GraphsController'
+    resolve:
+      phrases: (Phrase) -> Phrase.query().$promise
     templateUrl: 'partials/graphs.html'
     url: '/graphs'
   $urlRouterProvider.otherwise '/main'

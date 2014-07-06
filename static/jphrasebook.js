@@ -47,7 +47,7 @@
 
   app.controller('StatisticsController', function($scope, phrases) {
     $scope.phrases = phrases;
-    $scope.words = Array.concat.apply(null, phrases.map(function(phrase) {
+    $scope.words = Array.prototype.concat.apply([], phrases.map(function(phrase) {
       return phrase.english.split(/[ .,]/);
     })).filter(function(d) {
       return d;
@@ -62,7 +62,7 @@
     words = (function() {
       var count, o, word, _results;
       o = {};
-      Array.concat.apply(null, phrases.map(function(phrase) {
+      Array.prototype.concat.apply([], phrases.map(function(phrase) {
         return phrase.english.split(/[ .,]/);
       })).filter(function(d) {
         return d;
@@ -133,9 +133,6 @@
           return $http.get('/api/auth/user').then(function(response) {
             return response.data;
           });
-        },
-        phrases: function(Phrase) {
-          return Phrase.query().$promise;
         }
       },
       templateUrl: 'partials/base.html'
@@ -151,16 +148,31 @@
     });
     $stateProvider.state('app.main', {
       controller: 'MainController',
+      resolve: {
+        phrases: function(Phrase) {
+          return Phrase.query().$promise;
+        }
+      },
       templateUrl: 'partials/main.html',
       url: '/main?search'
     });
     $stateProvider.state('app.statistics', {
       controller: 'StatisticsController',
+      resolve: {
+        phrases: function(Phrase) {
+          return Phrase.query().$promise;
+        }
+      },
       templateUrl: 'partials/statistics.html',
       url: '/statistics'
     });
     $stateProvider.state('app.graphs', {
       controller: 'GraphsController',
+      resolve: {
+        phrases: function(Phrase) {
+          return Phrase.query().$promise;
+        }
+      },
       templateUrl: 'partials/graphs.html',
       url: '/graphs'
     });
