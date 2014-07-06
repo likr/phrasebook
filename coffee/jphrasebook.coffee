@@ -14,9 +14,10 @@ app.controller 'InstallController', ($scope, $window) ->
     return
   return
 
-app.controller 'MainController', ($scope, $modal, Phrase, phrases) ->
+app.controller 'MainController', ($scope, $stateParams,
+                                  $modal, Phrase, phrases) ->
+  $scope.search = $stateParams.search
   $scope.phrases = phrases
-
   $scope.openDialog = () ->
     m = $modal.open
       controller: ($scope) ->
@@ -34,6 +35,75 @@ app.controller 'MainController', ($scope, $modal, Phrase, phrases) ->
     return
   return
 
+app.controller 'StatisticsController', ($scope, phrases) ->
+  $scope.phrases = phrases
+  $scope.words = Array.concat
+    .apply null, phrases.map (phrase) -> phrase.english.split /[ .,]/
+    .filter (d) -> d
+  $scope.uniqueWords = d3.set($scope.words).values()
+  return
+
+app.controller 'GraphsController', ($scope, $state, phrases) ->
+  width = $('#display').width()
+  height = $('#display').height()
+  words = (() ->
+    o = {}
+    Array.concat
+      .apply null, phrases.map (phrase) -> phrase.english.split /[ .,]/
+      .filter (d) -> d
+      .forEach (word) ->
+        if not o[word]?
+          o[word] = 0
+        o[word] += 1
+    {text: word, count: count} for word, count of o
+  )()
+
+  fill = d3.scale.category20()
+  sizeScale = d3.scale.linear()
+    .domain d3.extent words, (w) -> w.count
+    .range [10, 50]
+
+  draw = (data) ->
+    d3.select '#display'
+      .append 'g'
+      .attr 'transform', "translate(#{width / 2},#{height / 2})"
+      .selectAll 'text'
+      .data data
+      .enter()
+      .append 'text'
+      .style
+        'font-size': (d) -> "#{sizeScale d.count}px"
+        'font-family': 'Impact'
+        fill: (d, i) -> fill i
+      .attr
+        'text-anchor': 'middle'
+        transform: (d) -> "translate(#{d.x},#{d.y})rotate(#{d.rotate})"
+      .text (d) -> d.text
+      .on 'click', (d) ->
+        $state.go 'app.main', search: d.text
+    return
+
+  d3.layout.cloud()
+    .size [width, height]
+    .words words
+    .padding 5
+    .font 'Impact'
+    .fontSize (d) -> sizeScale d.count
+    .on 'end', draw
+    .start()
+
+  d3.select window
+    .on 'resize', () ->
+      newWidth = $('#display').width()
+      newHeight = $('#display').height()
+      d3.select '#display'
+        .attr
+          width: newWidth
+          height: newHeight
+        .select 'g'
+        .attr 'transform', "translate(#{newWidth / 2},#{newHeight / 2})"
+  return
+
 app.config ($stateProvider, $urlRouterProvider) ->
   $stateProvider.state 'app',
     abstract: true
@@ -43,6 +113,7 @@ app.config ($stateProvider, $urlRouterProvider) ->
       user: ($http) ->
         $http.get '/api/auth/user'
           .then (response) -> response.data
+      phrases: (Phrase) -> Phrase.query().$promise
     templateUrl: 'partials/base.html'
   $stateProvider.state 'app.login',
     templateUrl: 'partials/login.html'
@@ -53,14 +124,14 @@ app.config ($stateProvider, $urlRouterProvider) ->
     url: '/install'
   $stateProvider.state 'app.main',
     controller: 'MainController'
-    resolve:
-      phrases: (Phrase) -> Phrase.query().$promise
     templateUrl: 'partials/main.html'
-    url: '/main'
+    url: '/main?search'
   $stateProvider.state 'app.statistics',
+    controller: 'StatisticsController'
     templateUrl: 'partials/statistics.html'
     url: '/statistics'
   $stateProvider.state 'app.graphs',
+    controller: 'GraphsController'
     templateUrl: 'partials/graphs.html'
     url: '/graphs'
   $urlRouterProvider.otherwise '/main'
