@@ -1,19 +1,23 @@
-var path = require('path')
+const path = require('path')
 
 module.exports = {
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react']
-        }
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['env', 'react']
+          }
+        },
+        include: [
+          path.resolve(__dirname, 'src')
+        ]
       },
       {
         test: /\.css$/,
-        loaders: ['style', 'css?modules']
+        loaders: ['style-loader', 'css-loader?modules']
       }
     ]
   },
@@ -24,7 +28,11 @@ module.exports = {
     path: path.join(__dirname, 'public'),
     filename: '[name].js'
   },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  }
+  plugins: [
+  ],
+  devServer: {
+    historyApiFallback: true,
+    contentBase: path.join(__dirname, 'public')
+  },
+  mode: 'development'
 }

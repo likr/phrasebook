@@ -1,27 +1,40 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import store from '../store'
 import {
   addPhrase,
   fetchPhrases,
   filterPhrases
-} from '../actions'
+} from '../intents'
 import styles from './phrase-list.css'
 
 const formatDate = (date) => {
   if (!date) {
     return ''
   }
-  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDay()} ${date.getHours()}:${date.getMinutes()}`
+  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
 }
 
 class PhraseList extends React.Component {
-  componentWillMount () {
-    const {fetchPhrases} = this.props
+  constructor () {
+    super()
+    this.state = {
+      phrases: []
+    }
+  }
+
+  componentDidMount () {
+    this.subscription = store().subscribe(({phrases}) => {
+      this.setState({phrases})
+    })
     fetchPhrases()
   }
 
+  componentWillUnmount () {
+    this.subscription.unsubscribe()
+  }
+
   render () {
-    const {phrases} = this.props
+    const {phrases} = this.state
     return <div className={styles.phraseList}>
       <div>
         <h2>Add phrase</h2>
@@ -39,7 +52,7 @@ class PhraseList extends React.Component {
         <h2>Phrases</h2>
         <div className={styles.searchBox}>
           <form className='pure-form'>
-            <input ref='query' className='pure-input-rounded pure-input-1' placeholder='search...' onChange={this.handleChangeQuery.bind(this)}/>
+            <input ref='query' className='pure-input-rounded pure-input-1' placeholder='search...' onChange={this.handleChangeQuery.bind(this)} />
           </form>
         </div>
         <div style={{}}>
@@ -58,7 +71,6 @@ class PhraseList extends React.Component {
 
   handleClickAddPhraseButton (event) {
     event.preventDefault()
-    const {addPhrase} = this.props
     const japanese = this.refs.japanese.value
     const english = this.refs.english.value
     this.refs.japanese.value = ''
@@ -67,27 +79,8 @@ class PhraseList extends React.Component {
   }
 
   handleChangeQuery () {
-    const {filterPhrases} = this.props
     filterPhrases(this.refs.query.value)
   }
 }
 
-const mapStateToProps = (state) => {
-  const filter = state.filter
-  const phrases = state.phrases.filter(({japanese, english}) => {
-    return japanese.indexOf(filter) >= 0 || english.indexOf(filter) >= 0
-  })
-  phrases.sort((p1, p2) => {
-    return (p2.created ? p2.created.getTime() : 0) - (p1.created ? p1.created.getTime() : 0)
-  })
-  return {phrases}
-}
-
-const mapDispatchToProps = {
-  addPhrase,
-  fetchPhrases,
-  filterPhrases
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PhraseList)
-
+export default PhraseList
