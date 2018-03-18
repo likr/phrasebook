@@ -1,4 +1,4 @@
-import Rx from 'rxjs/Rx'
+import {BehaviorSubject} from 'rxjs/BehaviorSubject'
 import Kinto from 'kinto'
 import {
   ADD_PHRASE,
@@ -13,7 +13,7 @@ const store = (intentSubject) => {
     phrases: []
   }
 
-  const subject = new Rx.BehaviorSubject({state, changed: false})
+  const subject = new BehaviorSubject({state, changed: false})
 
   intentSubject.subscribe((payload) => {
     switch (payload.type) {

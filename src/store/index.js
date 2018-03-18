@@ -1,4 +1,5 @@
-import Rx from 'rxjs/Rx'
+import {Observable} from 'rxjs/Observable'
+import 'rxjs/add/observable/zip'
 import {intentSubject} from '../intents'
 import phraseStore from './phrase'
 import filterStore from './filter'
@@ -11,7 +12,7 @@ const store = () => {
     phrases: []
   }
 
-  return Rx.Observable.zip(phraseSubject, filterSubject, (phrase, filter) => {
+  return Observable.zip(phraseSubject, filterSubject, (phrase, filter) => {
     if (phrase.changed || filter.changed) {
       state.phrases = phrase.state.phrases.filter(({japanese, english}) => {
         return japanese.indexOf(filter.state.filter) >= 0 || english.indexOf(filter.state.filter) >= 0

@@ -1,4 +1,4 @@
-import Rx from 'rxjs/Rx'
+import {BehaviorSubject} from 'rxjs/BehaviorSubject'
 import {
   INIT,
   ADD_PHRASE,
@@ -6,7 +6,7 @@ import {
   UPDATE_FILTER
 } from '../constants'
 
-export const intentSubject = new Rx.BehaviorSubject({type: INIT})
+export const intentSubject = new BehaviorSubject({type: INIT})
 
 export const addPhrase = (phrase) => {
   intentSubject.next({
