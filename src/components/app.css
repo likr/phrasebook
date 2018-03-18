@@ -8,7 +8,7 @@
 }
 
 .menu a {
-  color: white;
+  color: black;
 }
 
 .content {
@@ -28,6 +28,6 @@
 }
 
 :global(.pure-menu-selected) :global(.pure-menu-link), :global(.pure-menu-selected) :global(.pure-menu-link:visited) {
-  color: #ff926d;
+  color: black;
 }
 

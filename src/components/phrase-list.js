@@ -52,7 +52,7 @@ class PhraseList extends React.Component {
         <h2>Phrases</h2>
         <div className={styles.searchBox}>
           <form className='pure-form'>
-            <input ref='query' className='pure-input-rounded pure-input-1' placeholder='search...' onChange={this.handleChangeQuery.bind(this)} />
+            <input ref='query' aria-label='Search' className='pure-input-rounded pure-input-1' placeholder='search...' onChange={this.handleChangeQuery.bind(this)} />
           </form>
         </div>
         <div style={{}}>
