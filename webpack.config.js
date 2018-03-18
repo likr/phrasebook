@@ -34,5 +34,5 @@ module.exports = {
     historyApiFallback: true,
     contentBase: path.join(__dirname, 'public')
   },
-  mode: 'development'
+  mode: process.env.NODE_ENV || 'development'
 }

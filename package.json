@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack"
+    "build": "NODE_ENV=production webpack",
+    "deploy": "npm run build && netlify deploy"
   },
   "keywords": [],
   "author": "Yosuke Onoue <onoue@likr-lab.com>",
@@ -24,6 +25,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.11",
+    "netlify-cli": "^1.2.2",
     "style-loader": "^0.20.3",
     "webpack": "^4.1.1",
     "webpack-cli": "^2.0.12",
