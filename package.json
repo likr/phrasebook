@@ -1,26 +1,21 @@
 {
-  "name": "your-project",
+  "name": "phrasebook-app",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --content-base public",
+    "start": "webpack-dev-server",
     "build": "webpack"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Yosuke Onoue <onoue@likr-lab.com>",
+  "license": "MIT",
   "dependencies": {
     "kinto": "^11.0.0",
-    "purecss": "^0.6.0",
+    "purecss": "^1.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-redux": "^4.4.5",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-router-redux": "^4.0.5",
-    "redux": "^3.5.2",
-    "redux-observable": "^0.6.2",
     "rxjs": "^5.5.7"
   },
   "devDependencies": {
