@@ -23,8 +23,8 @@ class PhraseList extends React.Component {
   }
 
   componentDidMount () {
-    this.subscription = store().subscribe(({phrases}) => {
-      this.setState({phrases})
+    this.subscription = store().subscribe(({ phrases }) => {
+      this.setState({ phrases })
     })
     fetchPhrases()
   }
@@ -34,16 +34,16 @@ class PhraseList extends React.Component {
   }
 
   render () {
-    const {phrases} = this.state
+    const { phrases } = this.state
     return <div className={styles.phraseList}>
       <div>
         <h2>Add phrase</h2>
         <form className='pure-form pure-form-stacked'>
           <fieldset>
             <label htmlFor='japanese'>Japanese</label>
-            <textarea className='pure-input-1' style={{resize: 'none'}} rows='2' ref='japanese' id='japanese' placeholder='これはペンです。' />
+            <textarea className='pure-input-1' style={{ resize: 'none' }} rows='2' ref='japanese' id='japanese' placeholder='これはペンです。' />
             <label htmlFor='english'>English</label>
-            <textarea className='pure-input-1' style={{resize: 'none'}} rows='2' ref='english' id='english' placeholder='This is a pen.' />
+            <textarea className='pure-input-1' style={{ resize: 'none' }} rows='2' ref='english' id='english' placeholder='This is a pen.' />
             <button className={`pure-button ${styles.submitButton}`} onClick={this.handleClickAddPhraseButton.bind(this)}>add phrase</button>
           </fieldset>
         </form>
@@ -57,7 +57,7 @@ class PhraseList extends React.Component {
         </div>
         <div style={{}}>
           {phrases.map((phrase) => {
-            const {id, japanese, english, created} = phrase
+            const { id, japanese, english, created } = phrase
             return <div key={id} className={styles.phrase}>
               <p className={styles.date}>{formatDate(created)}</p>
               <p>{japanese}</p>
@@ -75,7 +75,7 @@ class PhraseList extends React.Component {
     const english = this.refs.english.value
     this.refs.japanese.value = ''
     this.refs.english.value = ''
-    addPhrase({japanese, english})
+    addPhrase({ japanese, english })
   }
 
   handleChangeQuery () {

@@ -1,4 +1,4 @@
-import {BehaviorSubject} from 'rxjs/BehaviorSubject'
+import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import Kinto from 'kinto'
 import {
   ADD_PHRASE,
@@ -13,7 +13,7 @@ const store = (intentSubject) => {
     phrases: []
   }
 
-  const subject = new BehaviorSubject({state, changed: false})
+  const subject = new BehaviorSubject({ state, changed: false })
 
   intentSubject.subscribe((payload) => {
     switch (payload.type) {
@@ -24,24 +24,24 @@ const store = (intentSubject) => {
             updated: new Date()
           }))
           .then((res) => phrases.list())
-          .then(({data}) => {
+          .then(({ data }) => {
             Object.assign(state, {
               phrases: data
             })
-            subject.next({state, changed: true})
+            subject.next({ state, changed: true })
           })
         break
       case FETCH_PHRASES:
         phrases.list()
-          .then(({data}) => {
+          .then(({ data }) => {
             Object.assign(state, {
               phrases: data
             })
-            subject.next({state, changed: true})
+            subject.next({ state, changed: true })
           })
         break
       default:
-        subject.next({state, changed: false})
+        subject.next({ state, changed: false })
     }
   })
 
