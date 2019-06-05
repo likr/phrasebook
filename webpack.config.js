@@ -1,5 +1,5 @@
 const path = require('path')
-const WorkboxPlugin = require('workbox-webpack-plugin')
+// const WorkboxPlugin = require('workbox-webpack-plugin')
 
 module.exports = {
   module: {
@@ -9,7 +9,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env', 'react']
+            presets: ['@babel/preset-env', '@babel/preset-react']
           }
         },
         include: [
@@ -30,19 +30,19 @@ module.exports = {
     filename: '[name].js'
   },
   plugins: [
-    new WorkboxPlugin.GenerateSW({
-      swDest: 'sw.js',
-      globDirectory: './public',
-      globPatterns: [
-        '*.{html,css,js}'
-      ],
-      globIgnores: [
-        '_redirects',
-        'bundle.js',
-        'sw.js'
-      ],
-      navigateFallback: '/index.html'
-    })
+    // new WorkboxPlugin.GenerateSW({
+    //   swDest: 'sw.js',
+    //   globDirectory: './public',
+    //   globPatterns: [
+    //     '*.{html,css,js}'
+    //   ],
+    //   globIgnores: [
+    //     '_redirects',
+    //     'bundle.js',
+    //     'sw.js'
+    //   ],
+    //   navigateFallback: '/index.html'
+    // })
   ],
   devServer: {
     historyApiFallback: true,
