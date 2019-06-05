@@ -1,4 +1,5 @@
 const path = require('path')
+const CopyPlugin = require('copy-webpack-plugin')
 // const WorkboxPlugin = require('workbox-webpack-plugin')
 
 module.exports = {
@@ -9,7 +10,8 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
+            // presets: ['@babel/preset-env', '@babel/preset-react']
+            presets: ['@babel/preset-react']
           }
         },
         include: [
@@ -19,6 +21,14 @@ module.exports = {
       {
         test: /\.css$/,
         loaders: ['style-loader', 'css-loader?modules']
+      },
+      {
+        test: /\.svg$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'svg'
+        }
       }
     ]
   },
@@ -30,6 +40,20 @@ module.exports = {
     filename: '[name].js'
   },
   plugins: [
+    new CopyPlugin([
+      {
+        from: './node_modules/@ionic/core/css/',
+        to: 'css'
+      },
+      {
+        from: './node_modules/ionicons/dist/css',
+        to: 'ionicons/css'
+      },
+      {
+        from: './node_modules/ionicons/dist/fonts',
+        to: 'ionicons/fonts'
+      }
+    ])
     // new WorkboxPlugin.GenerateSW({
     //   swDest: 'sw.js',
     //   globDirectory: './public',

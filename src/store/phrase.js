@@ -23,7 +23,7 @@ const store = (intentSubject) => {
             created: new Date(),
             updated: new Date()
           }))
-          .then((res) => phrases.list())
+          .then((res) => phrases.list({ order: '-updated' }))
           .then(({ data }) => {
             Object.assign(state, {
               phrases: data
@@ -32,7 +32,7 @@ const store = (intentSubject) => {
           })
         break
       case FETCH_PHRASES:
-        phrases.list()
+        phrases.list({ order: '-updated' })
           .then(({ data }) => {
             Object.assign(state, {
               phrases: data

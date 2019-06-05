@@ -1,36 +1,98 @@
 import React from 'react'
 import {
-  BrowserRouter as Router,
-  Route,
-  Link
+  BrowserRouter as Router
 } from 'react-router-dom'
-import PhraseList from './phrase-list'
-import About from './about'
-import Help from './help'
-import styles from './app.css'
+import {
+  IonApp,
+  IonButton,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonTextarea,
+  IonTitle,
+  IonToolbar
+} from '@ionic/react'
+import {
+  addPhrase,
+  fetchPhrases,
+  filterPhrases
+} from '../intents'
+import store from '../store'
+
+class PhraseList extends React.Component {
+  constructor () {
+    super()
+    this.state = {
+      phrases: []
+    }
+  }
+
+  componentDidMount () {
+    this.subscription = store().subscribe(({ phrases }) => {
+      this.setState({ phrases })
+    })
+    fetchPhrases()
+  }
+
+  componentWillUnmount () {
+    this.subscription.unsubscribe()
+  }
+
+  render () {
+    const { phrases } = this.state
+    return <IonContent padding>
+      <h1>Main Content</h1>
+      <p>hello hello</p>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault()
+          const japanese = this.refs.japanese.value
+          const english = this.refs.english.value
+          this.refs.japanese.value = ''
+          this.refs.english.value = ''
+          addPhrase({ japanese, english })
+        }}
+      >
+        <IonItem>
+          <IonLabel position='floating'>Japanese</IonLabel>
+          <IonTextarea ref='japanese' required />
+        </IonItem>
+        <IonItem>
+          <IonLabel position='floating'>English</IonLabel>
+          <IonTextarea ref='english' required />
+        </IonItem>
+        <IonButton expand='block' type='submit'>Add Phrase</IonButton>
+      </form>
+      <IonList>
+        {
+          phrases.map((phrase) => {
+            const { id, japanese, english, created } = phrase
+            return <IonItem key={id}>
+              {created.toString()} {japanese} {english}
+            </IonItem>
+          })
+        }
+      </IonList>
+    </IonContent>
+  }
+}
 
 const App = () => {
   return <Router>
-    <div>
-      <div className={`pure-menu pure-menu-horizontal pure-menu-fixed ${styles.menu}`}>
-        <div>
-          <Link className='pure-menu-heading' to='/'>Phrase Book</Link>
-          <ul className='pure-menu-list'>
-            <li className='pure-menu-item pure-menu-selected'>
-              <Link className='pure-menu-link' to='/about'>About</Link>
-            </li>
-            <li className='pure-menu-item pure-menu-selected'>
-              <Link className='pure-menu-link' to='/help'>Help</Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className={styles.content}>
-        <Route exact path='/' component={PhraseList} />
-        <Route path='/about' component={About} />
-        <Route path='/help' component={Help} />
-      </div>
-    </div>
+    <IonApp>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Phrasebook</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <PhraseList />
+      <IonFooter>
+        <IonTitle>Footer</IonTitle>
+      </IonFooter>
+    </IonApp>
   </Router>
 }
 
