@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  IonContent,
   IonFab,
   IonFabButton,
   IonIcon,
@@ -39,17 +40,19 @@ class PhraseList extends React.Component {
       showModal
     } = this.state
 
-    return <div>
-      <IonList>
-        {
-          phrases.map((phrase) => {
-            const { id, japanese, english, created } = phrase
-            return <IonItem key={id}>
-              {created.toString()} {japanese} {english}
-            </IonItem>
-          })
-        }
-      </IonList>
+    return <>
+      <IonContent padding>
+        <IonList>
+          {
+            phrases.map((phrase) => {
+              const { id, japanese, english, created } = phrase
+              return <IonItem key={id}>
+                {created.toString()} {japanese} {english}
+              </IonItem>
+            })
+          }
+        </IonList>
+      </IonContent>
       <IonFab vertical='bottom' horizontal='end' slot='fixed'>
         <IonFabButton
           onClick={() => {
@@ -72,7 +75,7 @@ class PhraseList extends React.Component {
           }
         }}
       />
-    </div>
+    </>
   }
 }
 

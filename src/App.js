@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom'
 import {
   IonApp,
-  IonContent,
   IonHeader,
   IonTitle,
   IonToolbar
@@ -21,11 +20,9 @@ const App = () => {
           <IonTitle>Phrasebook</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent padding>
-        <Switch>
-          <Route path='/' component={PhraseList} />
-        </Switch>
-      </IonContent>
+      <Switch>
+        <Route path='/' component={PhraseList} />
+      </Switch>
     </IonApp>
   </Router>
 }
