@@ -1,11 +1,8 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import Kinto from 'kinto'
-import {
-  ADD_PHRASE,
-  FETCH_PHRASES
-} from '../constants'
+import { ADD_PHRASE, FETCH_PHRASES } from '../constants'
 
-const store = (intentSubject) => {
+const store = intentSubject => {
   const db = new Kinto()
   const phrases = db.collection('phrases')
 
@@ -15,15 +12,17 @@ const store = (intentSubject) => {
 
   const subject = new BehaviorSubject({ state, changed: false })
 
-  intentSubject.subscribe((payload) => {
+  intentSubject.subscribe(payload => {
     switch (payload.type) {
       case ADD_PHRASE:
         phrases
-          .create(Object.assign({}, payload.phrase, {
-            created: new Date(),
-            updated: new Date()
-          }))
-          .then((res) => phrases.list({ order: '-updated' }))
+          .create(
+            Object.assign({}, payload.phrase, {
+              created: new Date(),
+              updated: new Date()
+            })
+          )
+          .then(res => phrases.list({ order: '-updated' }))
           .then(({ data }) => {
             Object.assign(state, {
               phrases: data
@@ -32,13 +31,12 @@ const store = (intentSubject) => {
           })
         break
       case FETCH_PHRASES:
-        phrases.list({ order: '-updated' })
-          .then(({ data }) => {
-            Object.assign(state, {
-              phrases: data
-            })
-            subject.next({ state, changed: true })
+        phrases.list({ order: '-updated' }).then(({ data }) => {
+          Object.assign(state, {
+            phrases: data
           })
+          subject.next({ state, changed: true })
+        })
         break
       default:
         subject.next({ state, changed: false })

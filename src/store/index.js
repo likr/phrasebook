@@ -15,7 +15,11 @@ const store = () => {
   return Observable.zip(phraseSubject, filterSubject, (phrase, filter) => {
     if (phrase.changed || filter.changed) {
       state.phrases = phrase.state.phrases.filter(({ japanese, english }) => {
-        return (!japanese || japanese.indexOf(filter.state.filter) >= 0) || (!english || english.indexOf(filter.state.filter) >= 0)
+        return (
+          !japanese ||
+          japanese.indexOf(filter.state.filter) >= 0 ||
+          (!english || english.indexOf(filter.state.filter) >= 0)
+        )
       })
     }
     return state

@@ -1,7 +1,5 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
-import {
-  UPDATE_FILTER
-} from '../constants'
+import { UPDATE_FILTER } from '../constants'
 
 const store = (intentSubject, phraseSubject) => {
   const state = {
@@ -10,7 +8,7 @@ const store = (intentSubject, phraseSubject) => {
 
   const subject = new BehaviorSubject({ state, changed: false })
 
-  intentSubject.subscribe((payload) => {
+  intentSubject.subscribe(payload => {
     switch (payload.type) {
       case UPDATE_FILTER:
         state.filter = payload.filter
