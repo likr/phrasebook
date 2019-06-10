@@ -62,8 +62,8 @@ const AddPhraseModal = ({ isOpen, onDidDismiss }) => {
 }
 
 AddPhraseModal.propTypes = {
-  isOpen: PropTypes.boolean.isReqquired,
-  onDidDismiss: PropTypes.func.isReqquired
+  isOpen: PropTypes.bool.isRequired,
+  onDidDismiss: PropTypes.func.isRequired
 }
 
 export default AddPhraseModal

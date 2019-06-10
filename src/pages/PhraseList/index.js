@@ -37,48 +37,48 @@ class PhraseList extends React.Component {
 
     return (
       <>
-        <IonContent padding>
-          <IonList>
-            {phrases.map(phrase => {
-              const { id, japanese, english, created } = phrase
-              return (
-                <IonItem key={id}>
-                  <IonLabel>
-                    <p>{created.toString()}</p>
-                  </IonLabel>
-                  <div>
-                    <p>{japanese}</p>
-                  </div>
-                  <div>
-                    <p>{english}</p>
-                  </div>
-                </IonItem>
-              )
-            })}
-          </IonList>
-        </IonContent>
-        <IonFab vertical="bottom" horizontal="end" slot="fixed">
-          <IonFabButton
-            onClick={() => {
-              this.setState({
-                showModal: true
-              })
-            }}
-          >
+      <IonContent padding>
+        <IonList>
+          {phrases.map(phrase => {
+            const { id, japanese, english, created } = phrase
+            return (
+              <IonItem key={id}>
+                <IonLabel>
+                  <p>{created.toString()}</p>
+                </IonLabel>
+                <div>
+                  <p>{japanese}</p>
+                </div>
+                <div>
+                  <p>{english}</p>
+                </div>
+              </IonItem>
+            )
+          })}
+            </IonList>
+          </IonContent>
+      <IonFab vertical="bottom" horizontal="end" slot="fixed">
+        <IonFabButton
+          onClick={() => {
+            this.setState({
+              showModal: true
+            })
+          }}
+        >
             <IonIcon name="add" />
           </IonFabButton>
         </IonFab>
-        <AddPhraseModal
-          isOpen={showModal}
-          onDidDismiss={result => {
-            this.setState({
-              showModal: false
-            })
-            if (result) {
-              addPhrase(result)
-            }
-          }}
-        />
+      <AddPhraseModal
+        isOpen={showModal}
+        onDidDismiss={result => {
+          this.setState({
+            showModal: false
+          })
+          if (result) {
+            addPhrase(result)
+          }
+        }}
+      />
       </>
     )
   }
