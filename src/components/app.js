@@ -13,7 +13,7 @@ import {
   IonTitle,
   IonToolbar
 } from '@ionic/react'
-import { addPhrase, fetchPhrases, filterPhrases } from '../intents'
+import { addPhrase, fetchPhrases } from '../intents'
 import store from '../store'
 
 class PhraseList extends React.Component {
@@ -52,14 +52,14 @@ class PhraseList extends React.Component {
           }}
         >
           <IonItem>
-            <IonLabel position="floating">Japanese</IonLabel>
-            <IonTextarea ref="japanese" required />
+            <IonLabel position='floating'>Japanese</IonLabel>
+            <IonTextarea ref='japanese' required />
           </IonItem>
           <IonItem>
-            <IonLabel position="floating">English</IonLabel>
-            <IonTextarea ref="english" required />
+            <IonLabel position='floating'>English</IonLabel>
+            <IonTextarea ref='english' required />
           </IonItem>
-          <IonButton expand="block" type="submit">
+          <IonButton expand='block' type='submit'>
             Add Phrase
           </IonButton>
         </form>

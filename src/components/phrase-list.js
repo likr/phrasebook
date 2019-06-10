@@ -36,29 +36,29 @@ class PhraseList extends React.Component {
       <div className={styles.phraseList}>
         <div>
           <h2>Add phrase</h2>
-          <form className="pure-form pure-form-stacked">
+          <form className='pure-form pure-form-stacked'>
             <fieldset>
-              <label htmlFor="japanese">Japanese</label>
+              <label htmlFor='japanese'>Japanese</label>
               <textarea
-                className="pure-input-1"
+                className='pure-input-1'
                 style={{ resize: 'none' }}
-                rows="2"
-                ref="japanese"
-                id="japanese"
-                placeholder="これはペンです。"
+                rows='2'
+                ref='japanese'
+                id='japanese'
+                placeholder='これはペンです。'
               />
-              <label htmlFor="english">English</label>
+              <label htmlFor='english'>English</label>
               <textarea
-                className="pure-input-1"
+                className='pure-input-1'
                 style={{ resize: 'none' }}
-                rows="2"
-                ref="english"
-                id="english"
-                placeholder="This is a pen."
+                rows='2'
+                ref='english'
+                id='english'
+                placeholder='This is a pen.'
               />
               <button
                 className={`pure-button ${styles.submitButton}`}
-                onClick={this.handleClickAddPhraseButton.bind(this)}
+                onClick={e => this.handleClickAddPhraseButton(e)}
               >
                 add phrase
               </button>
@@ -68,13 +68,13 @@ class PhraseList extends React.Component {
         <div>
           <h2>Phrases</h2>
           <div className={styles.searchBox}>
-            <form className="pure-form">
+            <form className='pure-form'>
               <input
-                ref="query"
-                aria-label="Search"
-                className="pure-input-rounded pure-input-1"
-                placeholder="search..."
-                onChange={this.handleChangeQuery.bind(this)}
+                ref='query'
+                aria-label='Search'
+                className='pure-input-rounded pure-input-1'
+                placeholder='search...'
+                onChange={e => this.handleChangeQuery(e)}
               />
             </form>
           </div>

@@ -22,7 +22,7 @@ const AddPhraseModal = ({ isOpen, onDidDismiss }) => {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonButtons slot="start">
+            <IonButtons slot='start'>
               <IonButton
                 onClick={() => {
                   onDidDismiss(null)
@@ -32,7 +32,7 @@ const AddPhraseModal = ({ isOpen, onDidDismiss }) => {
               </IonButton>
             </IonButtons>
             <IonTitle>Add Phrase</IonTitle>
-            <IonButtons slot="end">
+            <IonButtons slot='end'>
               <IonButton
                 onClick={() => {
                   const japanese = japaneseRef.current.value
@@ -48,11 +48,11 @@ const AddPhraseModal = ({ isOpen, onDidDismiss }) => {
         </IonHeader>
         <IonContent>
           <IonItem>
-            <IonLabel position="floating">Japanese</IonLabel>
+            <IonLabel position='floating'>Japanese</IonLabel>
             <IonTextarea ref={japaneseRef} required />
           </IonItem>
           <IonItem>
-            <IonLabel position="floating">English</IonLabel>
+            <IonLabel position='floating'>English</IonLabel>
             <IonTextarea ref={englishRef} required />
           </IonItem>
         </IonContent>

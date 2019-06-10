@@ -13,7 +13,7 @@ const App = () => {
           </IonToolbar>
         </IonHeader>
         <Switch>
-          <Route path="/" component={PhraseList} />
+          <Route path='/' component={PhraseList} />
         </Switch>
       </IonApp>
     </Router>
