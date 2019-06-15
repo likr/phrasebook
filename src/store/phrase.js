@@ -2,7 +2,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import Kinto from 'kinto'
 import { ADD_PHRASE, FETCH_PHRASES } from '../constants'
 
-const store = intentSubject => {
+const store = (intentSubject) => {
   const db = new Kinto()
   const phrases = db.collection('phrases')
 
@@ -12,7 +12,7 @@ const store = intentSubject => {
 
   const subject = new BehaviorSubject({ state, changed: false })
 
-  intentSubject.subscribe(payload => {
+  intentSubject.subscribe((payload) => {
     switch (payload.type) {
       case ADD_PHRASE:
         phrases
@@ -22,7 +22,7 @@ const store = intentSubject => {
               updated: new Date()
             })
           )
-          .then(res => phrases.list({ order: '-updated' }))
+          .then((res) => phrases.list({ order: '-updated' }))
           .then(({ data }) => {
             Object.assign(state, {
               phrases: data

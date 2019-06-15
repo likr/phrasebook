@@ -8,7 +8,7 @@ const store = (intentSubject, phraseSubject) => {
 
   const subject = new BehaviorSubject({ state, changed: false })
 
-  intentSubject.subscribe(payload => {
+  intentSubject.subscribe((payload) => {
     switch (payload.type) {
       case UPDATE_FILTER:
         state.filter = payload.filter

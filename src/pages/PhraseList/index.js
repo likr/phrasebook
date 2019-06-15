@@ -39,7 +39,7 @@ class PhraseList extends React.Component {
       <>
         <IonContent padding>
           <IonList>
-            {phrases.map(phrase => {
+            {phrases.map((phrase) => {
               const { id, japanese, english, created } = phrase
               return (
                 <IonItem key={id}>
@@ -70,7 +70,7 @@ class PhraseList extends React.Component {
         </IonFab>
         <AddPhraseModal
           isOpen={showModal}
-          onDidDismiss={result => {
+          onDidDismiss={(result) => {
             this.setState({
               showModal: false
             })
