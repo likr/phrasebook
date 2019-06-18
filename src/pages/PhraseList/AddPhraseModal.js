@@ -14,7 +14,7 @@ import {
   IonToolbar
 } from '@ionic/react'
 
-const AddPhraseModal = ({ isOpen, onDidDismiss }) => {
+const AddPhraseModal = ({ isOpen, addPhrase, onDidDismiss }) => {
   const japaneseRef = React.createRef()
   const englishRef = React.createRef()
   return (
@@ -25,7 +25,7 @@ const AddPhraseModal = ({ isOpen, onDidDismiss }) => {
             <IonButtons slot='start'>
               <IonButton
                 onClick={() => {
-                  onDidDismiss(null)
+                  onDidDismiss()
                 }}
               >
                 Cancel
@@ -35,9 +35,11 @@ const AddPhraseModal = ({ isOpen, onDidDismiss }) => {
             <IonButtons slot='end'>
               <IonButton
                 onClick={() => {
-                  const japanese = japaneseRef.current.value
-                  const english = englishRef.current.value
-                  onDidDismiss({ japanese, english })
+                  addPhrase({
+                    japanese: japaneseRef.current.value,
+                    english: englishRef.current.value
+                  })
+                  onDidDismiss()
                 }}
                 strong
               >

@@ -11,14 +11,13 @@
   "author": "Yosuke Onoue <onoue@likr-lab.com>",
   "license": "MIT",
   "dependencies": {
-    "@ionic/react": "0.0.5",
-    "kinto": "^11.0.0",
-    "purecss": "^1.0.0",
+    "@ionic/react": "0.0.6-3",
+    "kinto": "^12.4.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
-    "rxjs": "^5.5.7"
+    "react-google-login": "^5.0.4",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

@@ -8,9 +8,36 @@ import {
   IonLabel,
   IonList
 } from '@ionic/react'
-import { addPhrase, fetchPhrases } from '../../intents'
-import store from '../../store'
+import { db } from '../../services/kinto'
 import AddPhraseModal from './AddPhraseModal'
+
+const listPhrase = () => {
+  return db
+    .collection('phrases')
+    .list({ order: '-updated' })
+    .then(({ data: phrases }) => phrases)
+}
+
+const addPhrase = (result) => {
+  return db
+    .collection('phrases')
+    .create(
+      Object.assign({}, result, {
+        created: new Date(),
+        updated: new Date()
+      })
+    )
+    .then(() => listPhrase())
+}
+
+const syncPhrase = (token) => {
+  return db
+    .collection('phrases')
+    .sync({
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(() => listPhrase())
+}
 
 class PhraseList extends React.Component {
   constructor() {
@@ -22,14 +49,14 @@ class PhraseList extends React.Component {
   }
 
   componentDidMount() {
-    this.subscription = store().subscribe(({ phrases }) => {
+    listPhrase().then((phrases) => {
       this.setState({ phrases })
     })
-    fetchPhrases()
-  }
-
-  componentWillUnmount() {
-    this.subscription.unsubscribe()
+    if (this.props.token) {
+      syncPhrase(this.props.token).then((phrases) => {
+        this.setState({ phrases })
+      })
+    }
   }
 
   render() {
@@ -43,15 +70,11 @@ class PhraseList extends React.Component {
               const { id, japanese, english, created } = phrase
               return (
                 <IonItem key={id}>
-                  <IonLabel>
+                  <IonLabel text-wrap>
                     <p>{created.toString()}</p>
-                  </IonLabel>
-                  <div>
                     <p>{japanese}</p>
-                  </div>
-                  <div>
                     <p>{english}</p>
-                  </div>
+                  </IonLabel>
                 </IonItem>
               )
             })}
@@ -70,13 +93,24 @@ class PhraseList extends React.Component {
         </IonFab>
         <AddPhraseModal
           isOpen={showModal}
-          onDidDismiss={(result) => {
+          addPhrase={(result) => {
+            addPhrase(result).then((phrases) => {
+              this.setState({
+                phrases
+              })
+              if (this.props.token) {
+                syncPhrase(this.props.token).then((phrases) => {
+                  this.setState({
+                    phrases
+                  })
+                })
+              }
+            })
+          }}
+          onDidDismiss={() => {
             this.setState({
               showModal: false
             })
-            if (result) {
-              addPhrase(result)
-            }
           }}
         />
       </>
