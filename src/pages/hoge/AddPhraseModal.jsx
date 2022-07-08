@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 import {
   IonButton,
   IonButtons,
@@ -11,35 +10,35 @@ import {
   IonPage,
   IonTextarea,
   IonTitle,
-  IonToolbar
-} from '@ionic/react'
+  IonToolbar,
+} from "@ionic/react";
 
 const AddPhraseModal = ({ isOpen, addPhrase, onDidDismiss }) => {
-  const japaneseRef = React.createRef()
-  const englishRef = React.createRef()
+  const japaneseRef = React.createRef();
+  const englishRef = React.createRef();
   return (
     <IonModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonButtons slot='start'>
+            <IonButtons slot="start">
               <IonButton
                 onClick={() => {
-                  onDidDismiss()
+                  onDidDismiss();
                 }}
               >
                 Cancel
               </IonButton>
             </IonButtons>
             <IonTitle>Add Phrase</IonTitle>
-            <IonButtons slot='end'>
+            <IonButtons slot="end">
               <IonButton
                 onClick={() => {
                   addPhrase({
                     japanese: japaneseRef.current.value,
-                    english: englishRef.current.value
-                  })
-                  onDidDismiss()
+                    english: englishRef.current.value,
+                  });
+                  onDidDismiss();
                 }}
                 strong
               >
@@ -50,22 +49,22 @@ const AddPhraseModal = ({ isOpen, addPhrase, onDidDismiss }) => {
         </IonHeader>
         <IonContent>
           <IonItem>
-            <IonLabel position='floating'>Japanese</IonLabel>
+            <IonLabel position="floating">Japanese</IonLabel>
             <IonTextarea ref={japaneseRef} required />
           </IonItem>
           <IonItem>
-            <IonLabel position='floating'>English</IonLabel>
+            <IonLabel position="floating">English</IonLabel>
             <IonTextarea ref={englishRef} required />
           </IonItem>
         </IonContent>
       </IonPage>
     </IonModal>
-  )
-}
+  );
+};
 
 AddPhraseModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  onDidDismiss: PropTypes.func.isRequired
-}
+  onDidDismiss: PropTypes.func.isRequired,
+};
 
-export default AddPhraseModal
+export default AddPhraseModal;

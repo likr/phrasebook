@@ -1,11 +1,19 @@
 {
-  "extends": [
-    "standard",
-    "standard-react",
-    "plugin:prettier/recommended",
-    "prettier/react"
-  ],
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
   "rules": {
-    "react/prop-types": "ignore"
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0
   }
 }

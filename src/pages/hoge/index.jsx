@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   IonContent,
   IonFab,
@@ -6,68 +5,67 @@ import {
   IonIcon,
   IonItem,
   IonLabel,
-  IonList
-} from '@ionic/react'
-import { db } from '../../services/kinto'
-import AddPhraseModal from './AddPhraseModal'
+  IonList,
+} from "@ionic/react";
+import AddPhraseModal from "./AddPhraseModal";
 
 const listPhrase = () => {
   return db
-    .collection('phrases')
-    .list({ order: '-updated' })
-    .then(({ data: phrases }) => phrases)
-}
+    .collection("phrases")
+    .list({ order: "-updated" })
+    .then(({ data: phrases }) => phrases);
+};
 
 const addPhrase = (result) => {
   return db
-    .collection('phrases')
+    .collection("phrases")
     .create(
       Object.assign({}, result, {
         created: new Date(),
-        updated: new Date()
+        updated: new Date(),
       })
     )
-    .then(() => listPhrase())
-}
+    .then(() => listPhrase());
+};
 
 const syncPhrase = (token) => {
   return db
-    .collection('phrases')
+    .collection("phrases")
     .sync({
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
     })
-    .then(() => listPhrase())
-}
+    .then(() => listPhrase());
+};
 
 class PhraseList extends React.Component {
   constructor() {
-    super()
+    super();
     this.state = {
       showModal: false,
-      phrases: []
-    }
+      phrases: [],
+    };
   }
 
   componentDidMount() {
     listPhrase().then((phrases) => {
-      this.setState({ phrases })
-    })
+      this.setState({ phrases });
+    });
     if (this.props.token) {
       syncPhrase(this.props.token).then((phrases) => {
-        this.setState({ phrases })
-      })
+        this.setState({ phrases });
+      });
     }
   }
 
   render() {
-    const { phrases, showModal } = this.state
+    const { phrases, showModal } = this.state;
 
     return (
       <>
         <IonContent padding>
           <IonList>
             {phrases.map((phrase) => {
-              const { id, japanese, english, created } = phrase
+              const { id, japanese, english, created } = phrase;
               return (
                 <IonItem key={id}>
                   <IonLabel text-wrap>
@@ -76,19 +74,19 @@ class PhraseList extends React.Component {
                     <p>{english}</p>
                   </IonLabel>
                 </IonItem>
-              )
+              );
             })}
           </IonList>
         </IonContent>
-        <IonFab vertical='bottom' horizontal='end' slot='fixed'>
+        <IonFab vertical="bottom" horizontal="end" slot="fixed">
           <IonFabButton
             onClick={() => {
               this.setState({
-                showModal: true
-              })
+                showModal: true,
+              });
             }}
           >
-            <IonIcon name='add' />
+            <IonIcon name="add" />
           </IonFabButton>
         </IonFab>
         <AddPhraseModal
@@ -96,26 +94,26 @@ class PhraseList extends React.Component {
           addPhrase={(result) => {
             addPhrase(result).then((phrases) => {
               this.setState({
-                phrases
-              })
+                phrases,
+              });
               if (this.props.token) {
                 syncPhrase(this.props.token).then((phrases) => {
                   this.setState({
-                    phrases
-                  })
-                })
+                    phrases,
+                  });
+                });
               }
-            })
+            });
           }}
           onDidDismiss={() => {
             this.setState({
-              showModal: false
-            })
+              showModal: false,
+            });
           }}
         />
       </>
-    )
+    );
   }
 }
 
-export default PhraseList
+export default PhraseList;
